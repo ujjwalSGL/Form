@@ -9,13 +9,13 @@ const countryStateMap = {
     Canada: ['Ontario', 'Quebec', 'British Columbia'],
 };
 
-function Form2() {
+function Form2({isOpen, onToggle, nextStep}) {
     const [states, setStates] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
     const [errors, setErrors] = useState({});
     const [isBillingAddressSame, setIsBillingAddressSame] = useState(true);
-    
+
     const countryOptions = [
         { value: '', label: 'Select Country' },
         { value: 'India', label: 'India' },
@@ -89,6 +89,9 @@ function Form2() {
         }));
     };
 
+
+
+
     function validateForm() {
         const newErrors = {};
         if (!shippingAddress.firstName) newErrors.firstName = 'First name is required';
@@ -118,12 +121,17 @@ function Form2() {
                 shippingAddress,
                 billingAddress: finalBillingAddress,
             });
+            nextStep();
         }
+        
     }
 
     return (
         <div className='w-[1000px]'>
-            <Accordion title={"Consignee Details"}>
+            <Accordion title={"Consignee Details"}
+            isOpen={isOpen}
+            onToggle={onToggle}
+            >
                 <form className="space-y-4 text-sm mx-4" onSubmit={handleSubmit}>
                     <div>
                         <label className='font-bold'>Personal Details</label>
@@ -225,7 +233,7 @@ function Form2() {
                                     value={shippingAddress.city}
                                     onChange={handleShippingChange}
                                 />
-                                {errors.city && <p className="font-semibold text-[12px] text-red-600">{errors.city}</p>}
+                                {errors.city && <p className="font-semibold text-[12px] -mt-2 text-red-600">{errors.city}</p>}
                             </div>
                             <div>
                                 <label>Pincode <span className='text-red-600'>*</span></label>

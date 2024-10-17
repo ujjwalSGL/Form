@@ -3,10 +3,10 @@ import { useState } from 'react';
 import Accordion from '../Components/Accordion'
 import Input from '../Components/Input';
 import { MdAdd } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 
-
-function Form3() {
+function Form3({ isOpen, onToggle, nextStep }) {
 
     const [errors, setErrors] = useState({});
 
@@ -58,12 +58,47 @@ function Form3() {
         e.preventDefault();
         if (validateInfo()) {
             console.log('Form Submitted', shippingInfo);
+            nextStep();
         }
     }
+    const [products, setProducts] = useState([
+        { productName: "", sku: "", hsn: "", qty: "", untPrice: "", igst: "" }
+    ]
+    )
+    function addProduct() {
+        setProducts([
+            ...products,
+            { productName: "", sku: "", hsn: "", qty: "", untPrice: "", igst: "" }
+        ])
+    }
+    function removeProduct(index) {
+        const updatedProducts = []
+        for(let i = 0; i<products.length; i++){
+            if(i !== index){
+                updatedProducts.push(products[i])
+            }
+            
+        }
+        setProducts(updatedProducts)
+    }
+    function handleProductChange(e) {
+        const {index, field, value } = e.target;
+        const updatedProducts = products.map((products, i) => {
+            if(i === index) {
+                return {...products, [field]: value}
+            }
+            return products;
+        })
+
+    }
+
 
     return (
         <div>
-            <Accordion title={"Shipment Information"}>
+            <Accordion title={"Shipment Information"}
+            isOpen={isOpen}
+            onToggle={onToggle}
+            >
                 <form onSubmit={handleSubmit}>
                     <div className='text-sm'>
                         <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-4'>
@@ -225,135 +260,149 @@ function Form3() {
                                 <p className=" font-bold">Item(s) Details <span className='cursor-pointer px-1 text-red-500 bg-yellow-100 rounded-md font-light text-[10px]'>Items that can export</span></p>
                             </div>
                         </div>
-                        <div className='grid grid-cols-6 gap-6 px-4'>
-                            <div className='mt-3'>
-                                <label
-                                    somelabel="Height"
-                                    className="block text-sm font-medium text-gray-700 mb-1  "
-                                >
-                                    Product Name
-                                    <span className="text-red-600 ml-1">*</span>{" "}
-                                </label>
-                                <div className="flex  mt-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Product Name..."
-                                        name='productName'
-                                        value={shippingInfo.productName}
-                                        onChange={handleShipmentInfo}
-                                        className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-28"
-                                    />
+                        {products.map((products, index) => (
+                            <div className={` flex flex-row ${ index === 0 ? "" : ""} px-4 gap-4 `} >
+                                <div className='mt-3' key={index}>
+                                    <label
+                                        somelabel="Height"
+                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                    >
+                                        Product Name
+                                        <span className="text-red-600 ml-1">*</span>{" "}
+                                    </label>
+                                    <div className="flex  mt-2">
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Product Name..."
+                                            name='productName'
+                                            value={products.productName }
+                                            onChange={handleProductChange }
+                                            className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
+                                        />
+                                    </div>
+                                    {errors.productName && <p className="font-semibold text-[12px] text-red-600">{errors.productName}</p>}
+
                                 </div>
-                                {errors.productName && <p className="font-semibold text-[12px] text-red-600">{errors.productName}</p>}
+                                <div className='mt-3'>
+                                    <label
+                                        somelabel="Height"
+                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                    >
+                                        SKU
+                                    </label>
+                                    <div className="flex  mt-2">
+                                        <input
+                                            type="text"
+                                            placeholder="Enter SKU ..."
+                                            name='SKU'
+                                            value={shippingInfo.SKU + "" + products.sku}
+                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
+                                        />
+                                    </div>
+
+                                </div>
+                                <div className='mt-3'>
+                                    <label
+                                        somelabel="Height"
+                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                    >
+                                        HSN
+                                        <span className="text-red-600 ml-1">*</span>{" "}
+                                    </label>
+                                    <div className="flex  mt-2">
+                                        <input
+                                            type="text"
+                                            placeholder="Enter HSN ..."
+                                            name='HSN'
+                                            value={shippingInfo.HSN + "" + products.hsn}
+                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
+                                        />
+                                    </div>
+                                    {errors.HSN && <p className="font-semibold text-[12px] text-red-600">{errors.HSN}</p>}
+
+                                </div>
+                                <div className='mt-3'>
+                                    <label
+                                        somelabel="Height"
+                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                    >
+                                        Qty
+                                        <span className="text-red-600 ml-1">*</span>{" "}
+                                    </label>
+                                    <div className="flex  mt-2">
+                                        <input
+                                            type="number"
+                                            placeholder="Enter Qty ..."
+                                            name='Qty'
+                                            value={shippingInfo.Qty + "" + products.qty}
+                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
+                                        />
+                                    </div>
+                                    {errors.Qty && <p className="font-semibold text-[12px] text-red-600">{errors.Qty}</p>}
+
+                                </div>
+                                <div className='mt-3'>
+                                    <label
+                                        somelabel="Height"
+                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                    >
+                                        Unit Price (INR)
+                                        <span className="text-red-600 ml-1">*</span>{" "}
+                                    </label>
+                                    <div className="flex  mt-2">
+                                        <input
+                                            type="number"
+                                            placeholder="0"
+                                            name='unitPrice'
+                                            value={shippingInfo.unitPrice + "" + products.untPrice}
+                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            className="flex-grow p-2 border rounded-md cursor-pointer focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
+                                        />
+                                    </div>
+                                    {errors.unitPrice && <p className="font-semibold text-[12px] text-red-600">{errors.unitPrice}</p>}
+
+                                </div>
+                                <div className='mt-3'>
+                                    <label
+                                        somelabel="Height"
+                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                    >
+                                        IGST
+                                        <span className="text-red-600 ml-1">*</span>{" "}
+                                    </label>
+                                    <div className="flex mt-2">
+                                        <input
+                                            type="text"
+                                            disabled
+                                            placeholder="0%"
+                                            name='IGST'
+                                            value={shippingInfo.IGST + "" + products.igst}
+                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            className="flex-grow p-2 border cursor-pointer rounded-md w-16 focus:border-indigo-600 focus:outline-none hover:bg-gray-50 "
+                                        />
+                                    </div>
+                                    {errors.IGST && <p className="font-semibold text-[12px] text-red-600">{errors.IGST}</p>}
+                                </div>
+                                {index>0 && (
+                                    <div className='mt-6'>
+                                        <div
+                                            className="text-red-500 w-5 mt-5 text-[25px]  cursor-pointer rounded-md font-semibold "
+                                            onClick={() => removeProduct(index)}
+                                        >
+                                            <RiDeleteBin6Line />
+                                        </div>
+                                    </div>
+                                )}
 
                             </div>
-                            <div className='mt-2'>
-                                <label
-                                    somelabel="Height"
-                                    className="block text-sm font-medium text-gray-700 mb-1  "
-                                >
-                                    SKU
-                                </label>
-                                <div className="flex  mt-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter SKU ..."
-                                        name='SKU'
-                                        value={shippingInfo.SKU}
-                                        onChange={handleShipmentInfo}
-                                        className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-28"
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='mt-2'>
-                                <label
-                                    somelabel="Height"
-                                    className="block text-sm font-medium text-gray-700 mb-1  "
-                                >
-                                    HSN
-                                    <span className="text-red-600 ml-1">*</span>{" "}
-                                </label>
-                                <div className="flex  mt-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter HSN ..."
-                                        name='HSN'
-                                        value={shippingInfo.HSN}
-                                        onChange={handleShipmentInfo}
-                                        className="flex-grow p-2 border rounded-md cursor-pointer focus:border-indigo-600  focus:outline-none hover:bg-gray-50 w-28"
-                                    />
-                                </div>
-                                {errors.HSN && <p className="font-semibold text-[12px] text-red-600">{errors.HSN}</p>}
-
-                            </div>
-                            <div className='mt-2'>
-                                <label
-                                    somelabel="Height"
-                                    className="block text-sm font-medium text-gray-700 mb-1  "
-                                >
-                                    Qty
-                                    <span className="text-red-600 ml-1">*</span>{" "}
-                                </label>
-                                <div className="flex  mt-2">
-                                    <input
-                                        type="number"
-                                        placeholder="Enter Qty ..."
-                                        name='Qty'
-                                        value={shippingInfo.Qty}
-                                        onChange={handleShipmentInfo}
-                                        className="flex-grow p-2 border rounded-md cursor-pointer focus:border-indigo-600  focus:outline-none hover:bg-gray-50 w-28"
-                                    />
-                                </div>
-                                {errors.Qty && <p className="font-semibold text-[12px] text-red-600">{errors.Qty}</p>}
-
-                            </div>
-                            <div className='mt-2'>
-                                <label
-                                    somelabel="Height"
-                                    className="block text-sm font-medium text-gray-700 mb-1  "
-                                >
-                                    Unit Price (INR)
-                                    <span className="text-red-600 ml-1">*</span>{" "}
-                                </label>
-                                <div className="flex  mt-2">
-                                    <input
-                                        type="number"
-                                        placeholder="0"
-                                        name='unitPrice'
-                                        value={shippingInfo.unitPrice}
-                                        onChange={handleShipmentInfo}
-                                        className="flex-grow p-2 border rounded-md cursor-pointer focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-28"
-                                    />
-                                </div>
-                                {errors.unitPrice && <p className="font-semibold text-[12px] text-red-600">{errors.unitPrice}</p>}
-
-                            </div>
-                            <div className='mt-2'>
-                                <label
-                                    somelabel="Height"
-                                    className="block text-sm font-medium text-gray-700 mb-1  "
-                                >
-                                    IGST
-                                    <span className="text-red-600 ml-1">*</span>{" "}
-                                </label>
-                                <div className="flex mt-2">
-                                    <input
-                                        type="text"
-                                        disabled
-                                        placeholder="0%"
-                                        name='IGST'
-                                        value={shippingInfo.IGST}
-                                        onChange={handleShipmentInfo}
-                                        className="flex-grow p-2 border cursor-pointer rounded-md w-5 focus:border-indigo-600 focus:outline-none hover:bg-gray-50 "
-                                    />
-                                </div>
-                                {errors.IGST && <p className="font-semibold text-[12px] text-red-600">{errors.IGST}</p>}
-                            </div>
-                        </div>
-                        <div>
-                            <p className='flex m-5 text-indigo-900 text-[15px] ' >
-                                <div >
+                        ))}
+                        
+                        <div onClick={(e) => {e.preventDefault(); addProduct()}}>
+                            <p className='flex m-5 text-indigo-900 text-[15px]' >
+                                <div>
                                     <MdAdd className='text-xl' />
                                 </div>
                                 <div className='underline font-semibold cursor-pointer hover:text-indigo-800'>

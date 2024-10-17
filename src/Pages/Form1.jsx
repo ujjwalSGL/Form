@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import Accordion from '../Components/Accordion'
 
-function Form1() {
-
+function Form1({onToggle, isOpen, nextStep}) {
+    function handleSubmit(e){
+        e.preventDefault();
+        // Input Validation
+        nextStep();
+    }
     return (
-        <Accordion title={" Consigner Details"}>
-            <form >
+        <Accordion title={" Consigner Details"}
+        onToggle={onToggle}
+        isOpen={isOpen}
+
+        >
+            <form onSubmit={handleSubmit}>
                 <div className='text-sm mx-4'>
                     <p className='pb-2 '>Search Customer</p>
                     <select className='w-[700px] h-10 border appearance-none p-2 pl-4 font-bold text-sm text-gray-400 justify-center items-center' name="Select customer.." id="customer">
@@ -13,7 +21,6 @@ function Form1() {
                         <option>Ujjwal</option>
                         <option>Aman</option>
                         <option>Gaurav</option>
-
                     </select>
                     <div className="flex justify-end mt-5">
                         <button
