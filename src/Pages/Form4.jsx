@@ -1,9 +1,9 @@
 import React from 'react'
 import Accordion from '../Components/Accordion'
 
-function Form4({ isOpen, onToggle }) {
+function Form4({ isOpen, onToggle, activeState }) {
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault();
 
     }
@@ -11,8 +11,12 @@ function Form4({ isOpen, onToggle }) {
     return (
         <div>
             <Accordion title={"Select Shipping Partner"}
-            isOpen={isOpen}
-            onToggle={onToggle}
+                isOpen={isOpen}
+                onToggle={onToggle}
+                stepNum={4}
+                activeState={activeState}
+
+
             >
                 <div className='p-4 text-sm'>
                     <div>

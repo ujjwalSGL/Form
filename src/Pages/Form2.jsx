@@ -9,7 +9,7 @@ const countryStateMap = {
     Canada: ['Ontario', 'Quebec', 'British Columbia'],
 };
 
-function Form2({isOpen, onToggle, nextStep}) {
+function Form2({ isOpen, onToggle, nextStep, activeState }) {
     const [states, setStates] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
@@ -88,13 +88,11 @@ function Form2({isOpen, onToggle, nextStep}) {
             [name]: value,
         }));
     };
-
-
-
-
     function validateForm() {
         const newErrors = {};
-        if (!shippingAddress.firstName) newErrors.firstName = 'First name is required';
+        if (!shippingAddress.firstName) {
+            newErrors.firstName = 'First name is required';
+        }
         if (!shippingAddress.lastName) newErrors.lastName = 'Last name is required';
         if (!shippingAddress.mobile) newErrors.mobile = 'Mobile number is required';
         if (!/^\d{10}$/.test(shippingAddress.mobile)) newErrors.mobile = 'Invalid mobile number';
@@ -106,31 +104,29 @@ function Form2({isOpen, onToggle, nextStep}) {
         if (!shippingAddress.city) newErrors.city = 'City is required';
         if (!shippingAddress.pincode) newErrors.pincode = 'Pincode is required';
         if (!/^\d{6}$/.test(shippingAddress.pincode)) newErrors.pincode = 'Invalid pincode';
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     }
-
     function handleSubmit(e) {
         e.preventDefault();
         if (validateForm()) {
-            const finalBillingAddress = isBillingAddressSame
-                ? shippingAddress
-                : billingAddress;
+            const finalBillingAddress = isBillingAddressSame ? shippingAddress : billingAddress;
             console.log({
-                shippingAddress,
-                billingAddress: finalBillingAddress,
+                shippingAddress, billingAddress: finalBillingAddress,
             });
             nextStep();
         }
-        
+
     }
 
     return (
         <div className='w-[1000px]'>
             <Accordion title={"Consignee Details"}
-            isOpen={isOpen}
-            onToggle={onToggle}
+                isOpen={isOpen}
+                onToggle={onToggle}
+                stepNum={2}
+                activeState={activeState}
+
             >
                 <form className="space-y-4 text-sm mx-4" onSubmit={handleSubmit}>
                     <div>
@@ -328,7 +324,7 @@ function Form2({isOpen, onToggle, nextStep}) {
                         <div className="flex justify-end mt-5">
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-blue-900 hover:bg-blue-800 text-gray-100 rounded-md font-bold "
+                                className="px-4 py-2 bg-blue-900 text-gray-100 border rounded-xl font-bold "
                             >
                                 Continue
                             </button>

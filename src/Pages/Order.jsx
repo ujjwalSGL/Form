@@ -11,12 +11,10 @@ const Order = () => {
         function nextStep() {
             setActiveState((prevStep) => Math.min(prevStep + 1, 4))
         }
-        function prevStep() {
-            setActiveState((prevStep) => Math.max(prevStep - 1, 1))
-        }
         function toggleStep(step) {
             setActiveState(step);
         }
+        
     return (
  
         <div className=" grid justify-center items-center mx-64 my-10 gap-2 ">
@@ -28,11 +26,13 @@ const Order = () => {
                 isOpen={activeState === 1}
                 onToggle={() => toggleStep(1)}
                 nextStep={nextStep} 
+                activeState={activeState}
                 />
-            <Form2 
+            <Form2
                 isOpen={activeState === 2}
                 onToggle={() => toggleStep(2)}
-                nextStep={nextStep} />
+                nextStep={nextStep} 
+                activeState={activeState}/>
             <Form3 
                 isOpen={activeState === 3}
                 onToggle={() => toggleStep(3)}
@@ -45,7 +45,6 @@ const Order = () => {
             />    
         </div>
     )
-    
 };
 
 export default Order;

@@ -6,14 +6,14 @@ import { MdAdd } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 
-function Form3({ isOpen, onToggle, nextStep }) {
+function Form3({ isOpen, onToggle, nextStep, activeState }) {
 
     const [errors, setErrors] = useState({});
 
     const [shippingInfo, setShippingInfo] = useState({
-        invoiceNumber: '',
-        orderReferenceID: '',
-        iossNumber: '',
+        invoiceNumber: "",
+        orderReferenceID: "",
+        iossNumber: "",
         invoiceCurrency: "",
         invoiceDate: "",
         deadWeight: "",
@@ -27,13 +27,14 @@ function Form3({ isOpen, onToggle, nextStep }) {
         unitPrice: "",
         IGST: ""
     });
-    const handleShipmentInfo = (e) => {
-        const { name, value } = e.target;
-        setShippingInfo((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+    // const handleProductChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setShippingInfo((prevData) => ({
+    //         ...prevData,
+    //         [name]: value,
+    //     }));
+
+    // };
 
     function validateInfo() {
         const newErrors = {};
@@ -62,42 +63,47 @@ function Form3({ isOpen, onToggle, nextStep }) {
         }
     }
     const [products, setProducts] = useState([
-        { productName: "", sku: "", hsn: "", qty: "", untPrice: "", igst: "" }
+        { component:"" }
     ]
     )
     function addProduct() {
-        setProducts([
-            ...products,
-            { productName: "", sku: "", hsn: "", qty: "", untPrice: "", igst: "" }
+        setProducts((prev)=>[
+            ...prev,
+            { component: "" }
         ])
     }
     function removeProduct(index) {
         const updatedProducts = []
-        for(let i = 0; i<products.length; i++){
-            if(i !== index){
+        for (let i = 0; i < products.length; i++) {
+            if (i !== index) {
                 updatedProducts.push(products[i])
             }
-            
         }
         setProducts(updatedProducts)
     }
     function handleProductChange(e) {
-        const {index, field, value } = e.target;
+        const { index, name, value } = e.target;
+
+        setShippingInfo((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
         const updatedProducts = products.map((products, i) => {
-            if(i === index) {
-                return {...products, [field]: value}
+            if (i === index) {
+                return { ...products, [name]: value }
             }
             return products;
         })
 
     }
 
-
     return (
         <div>
             <Accordion title={"Shipment Information"}
-            isOpen={isOpen}
-            onToggle={onToggle}
+                isOpen={isOpen}
+                onToggle={onToggle}
+                stepNum={3}
+                activeState={activeState}
             >
                 <form onSubmit={handleSubmit}>
                     <div className='text-sm'>
@@ -107,7 +113,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                 <Input type="text" placeholder="Enter Invoice Number..."
                                     name="invoiceNumber"
                                     value={shippingInfo.invoiceNumber}
-                                    onChange={handleShipmentInfo}
+                                    onChange={handleProductChange}
                                 />
                                 {errors.invoiceNumber && <p className=" -mt-2 font-semibold text-[12px] text-red-600">{errors.invoiceNumber}</p>}
                             </div>
@@ -117,7 +123,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                 <input type="date" placeholder="Pick a date"
                                     name="invoiceDate"
                                     value={shippingInfo.invoiceDate}
-                                    onChange={handleShipmentInfo}
+                                    onChange={handleProductChange}
                                     className="flex-grow p-2 pl-4 mt-[6px] border w-[222px] rounded-md h-9  focus:border-indigo-600 focus:outline-none  hover:bg-gray-50 "
                                 />
                                 {errors.invoiceDate && <p className="font-semibold text-[12px] text-red-600">{errors.invoiceDate}</p>}
@@ -130,7 +136,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                     id=""
                                     name="invoiceCurrency"
                                     value={shippingInfo.invoiceCurrency}
-                                    onChange={handleShipmentInfo}
+                                    onChange={handleProductChange}
                                 >
                                     <option value="INR">Select Currency</option>
                                     <option value="INR">INR</option>
@@ -149,7 +155,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                 <Input type="text" placeholder="Enter Order/Reference ID..."
                                     name="orderReferenceID"
                                     value={shippingInfo.orderReferenceID}
-                                    onChange={handleShipmentInfo}
+                                    onChange={handleProductChange}
                                 />
                             </div>
                             <div className='mt-4'>
@@ -157,7 +163,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                 <Input type="text" placeholder="Enter IOSS Number..."
                                     name="iossNumber"
                                     value={shippingInfo.iossNumber}
-                                    onChange={handleShipmentInfo}
+                                    onChange={handleProductChange}
                                 />
                             </div>
 
@@ -181,7 +187,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             placeholder="Eg. 1.25"
                                             name='deadWeight'
                                             value={shippingInfo.deadWeight}
-                                            onChange={handleShipmentInfo}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
                                         />
                                         <span className="px-3 bg-gray-200 rounded-r-md py-1.5">kg</span>{" "}
@@ -202,7 +208,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             placeholder="Eg. 1.25"
                                             name='length'
                                             value={shippingInfo.length}
-                                            onChange={handleShipmentInfo}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
                                         />
                                         <span className="px-3 bg-gray-200 rounded-r-md py-1.5 ">cm</span>{" "}
@@ -223,7 +229,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             placeholder="Eg. 1.25"
                                             name='breadth'
                                             value={shippingInfo.breadth}
-                                            onChange={handleShipmentInfo}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
                                         />
                                         <span className="px-3 bg-gray-200 rounded-r-md py-1.5">cm</span>{" "}
@@ -245,7 +251,7 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             placeholder="Eg. 1.25"
                                             name='height'
                                             value={shippingInfo.height}
-                                            onChange={handleShipmentInfo}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
                                         />
                                         <span className="px-3 bg-gray-200 rounded-r-md py-1.5">cm</span>{" "}
@@ -260,8 +266,8 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                 <p className=" font-bold">Item(s) Details <span className='cursor-pointer px-1 text-red-500 bg-yellow-100 rounded-md font-light text-[10px]'>Items that can export</span></p>
                             </div>
                         </div>
-                        {products.map((products, index) => (
-                            <div className={` flex flex-row ${ index === 0 ? "" : ""} px-4 gap-4 `} >
+                        {products.map((a, index) => (
+                            <div className={` flex flex-row ${index === 0 ? "" : ""} px-4 gap-4 `} >
                                 <div className='mt-3' key={index}>
                                     <label
                                         somelabel="Height"
@@ -275,8 +281,8 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             type="text"
                                             placeholder="Enter Product Name..."
                                             name='productName'
-                                            value={products.productName }
-                                            onChange={handleProductChange }
+                                            // value={shippingInfo.productName + "" + products.productName}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
                                         />
                                     </div>
@@ -295,12 +301,11 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             type="text"
                                             placeholder="Enter SKU ..."
                                             name='SKU'
-                                            value={shippingInfo.SKU + "" + products.sku}
-                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            // value={shippingInfo.SKU}
+                                            onChange={handleProductChange + "" + products.sku}
                                             className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
                                         />
                                     </div>
-
                                 </div>
                                 <div className='mt-3'>
                                     <label
@@ -315,8 +320,8 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             type="text"
                                             placeholder="Enter HSN ..."
                                             name='HSN'
-                                            value={shippingInfo.HSN + "" + products.hsn}
-                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            // value={shippingInfo.HSN + "" + products.hsn}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
                                         />
                                     </div>
@@ -336,8 +341,8 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             type="number"
                                             placeholder="Enter Qty ..."
                                             name='Qty'
-                                            value={shippingInfo.Qty + "" + products.qty}
-                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            // value={shippingInfo.Qty + "" + products.qty}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-md cursor-pointer  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
                                         />
                                     </div>
@@ -357,8 +362,8 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             type="number"
                                             placeholder="0"
                                             name='unitPrice'
-                                            value={shippingInfo.unitPrice + "" + products.untPrice}
-                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            // value={shippingInfo.unitPrice + "" + products.untPrice}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-md cursor-pointer focus:border-indigo-600 focus:outline-none hover:bg-gray-50 w-36"
                                         />
                                     </div>
@@ -379,14 +384,14 @@ function Form3({ isOpen, onToggle, nextStep }) {
                                             disabled
                                             placeholder="0%"
                                             name='IGST'
-                                            value={shippingInfo.IGST + "" + products.igst}
-                                            onChange={handleShipmentInfo + "" + handleProductChange}
+                                            // value={shippingInfo.IGST + "" + products.igst}
+                                            onChange={handleProductChange}
                                             className="flex-grow p-2 border cursor-pointer rounded-md w-16 focus:border-indigo-600 focus:outline-none hover:bg-gray-50 "
                                         />
                                     </div>
                                     {errors.IGST && <p className="font-semibold text-[12px] text-red-600">{errors.IGST}</p>}
                                 </div>
-                                {index>0 && (
+                                {index > 0 && (
                                     <div className='mt-6'>
                                         <div
                                             className="text-red-500 w-5 mt-5 text-[25px]  cursor-pointer rounded-md font-semibold "
@@ -399,8 +404,8 @@ function Form3({ isOpen, onToggle, nextStep }) {
 
                             </div>
                         ))}
-                        
-                        <div onClick={(e) => {e.preventDefault(); addProduct()}}>
+
+                        <div onClick={(e) => { e.preventDefault(); addProduct() }}>
                             <p className='flex m-5 text-indigo-900 text-[15px]' >
                                 <div>
                                     <MdAdd className='text-xl' />
