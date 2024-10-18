@@ -15,8 +15,6 @@ function Form4({ isOpen, onToggle, activeState }) {
                 onToggle={onToggle}
                 stepNum={4}
                 activeState={activeState}
-
-
             >
                 <div className='p-4 text-sm'>
                     <div>

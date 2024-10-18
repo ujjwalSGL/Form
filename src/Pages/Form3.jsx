@@ -25,7 +25,6 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
         HSN: "",
         Qty: "",
         unitPrice: "",
-        IGST: ""
     });
     // const handleProductChange = (e) => {
     //     const { name, value } = e.target;
@@ -48,7 +47,6 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
         if (!shippingInfo.productName) newErrors.productName = 'Required';
         if (!shippingInfo.HSN && shippingInfo.HSN.length !== 8) newErrors.HSN = 'HSN must be 8 digits long';
         if (!shippingInfo.Qty) newErrors.Qty = 'Required';
-        if (!shippingInfo.IGST) newErrors.IGST = 'Required';
         if (!shippingInfo.unitPrice) newErrors.unitPrice = 'Required';
 
         setErrors(newErrors);
@@ -385,7 +383,7 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
                                             placeholder="0%"
                                             name='IGST'
                                             // value={shippingInfo.IGST + "" + products.igst}
-                                            onChange={handleProductChange}
+                                            // onChange={handleProductChange}
                                             className="flex-grow p-2 border cursor-pointer rounded-md w-16 focus:border-indigo-600 focus:outline-none hover:bg-gray-50 "
                                         />
                                     </div>
