@@ -1,9 +1,13 @@
 import React from 'react'
 
-export default function Navbar() {
+function Errors() {
   return (
     <div>
         
+        <span>*</span>
+
     </div>
   )
 }
+
+export default Errors

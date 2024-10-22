@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Accordion from '../Components/Accordion'
+import Button from '../Components/Button'
 
-function Form1({ onToggle, isOpen, nextStep, activeState }) {
+function Form1({activeState, setActiveState }) {
 
     const [errors, setErrors] = useState({})
     const [customerInfo, setCustomerInfo] = useState({
-        customer:""
+        customer: ""
     })
     function inputChange(e) {
         e.preventDefault();
@@ -31,23 +32,24 @@ function Form1({ onToggle, isOpen, nextStep, activeState }) {
         e.preventDefault();
         const errors = validateInfo(customerInfo);
         setErrors(errors);
-        if(Object.keys(errors).length === 0){
-            nextStep();
-        }else {
+        if (Object.keys(errors).length === 0) {
+            setActiveState(2);
+        } else {
             console.log("Error is occuring frequently betichod")
         }
     }
 
     return (
         <Accordion title={" Consigner Details"}
-            onToggle={onToggle}
-            isOpen={isOpen}
+            onToggle={() => setActiveState(1)} //remove this
+            // onToggle={setActiveStep}
+            isOpen={activeState === 1} //activestate===1
             stepNum={1}
             activeState={activeState}
         >
             <form onSubmit={handleSubmit}>
                 <div className='text-sm mx-4'>
-                    <p className='pb-2 '>Search Customer</p>
+                    <p className='pb-2'>Search Customer</p>
                     <div>
                         <select className='w-[700px] h-10 border appearance-none p-2 pl-4 font-bold text-sm text-gray-400 justify-center items-center' value={customerInfo.customer} onChange={inputChange} name="customer">
                             <option>Select Customer</option>
@@ -59,11 +61,11 @@ function Form1({ onToggle, isOpen, nextStep, activeState }) {
                     </div>
 
                     <div className="flex justify-end mt-5">
-                        <button
+                        <Button
                             type="submit"
                             className="px-4 py-2 bg-blue-900 hover:bg-blue-800 text-gray-100 rounded-md font-bold" >
                             Continue
-                        </button>
+                        </Button>
                     </div>
 
                 </div>

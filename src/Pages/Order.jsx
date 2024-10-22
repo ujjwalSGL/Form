@@ -8,13 +8,7 @@ import { FaAngleRight } from "react-icons/fa6";
 
 const Order = () => {
         const [activeState, setActiveState] = useState(1);
-        function nextStep() {
-            setActiveState((prevStep) => Math.min(prevStep + 1, 4))
-        }
-        function toggleStep(step) {
-            setActiveState(step);
-        }
-        
+    
     return (
  
         <div className=" grid justify-center items-center mx-64 my-10 gap-2 ">
@@ -23,23 +17,30 @@ const Order = () => {
                 <h1 className="flex mb-10 text-gray-400">Orders <span className="pt-[5px] text-gray-400"><FaAngleRight /></span><span className="text-black">Create CSB-IV Order</span></h1>
             </div>
             <Form1 
-                isOpen={activeState === 1}
-                onToggle={() => toggleStep(1)}
-                nextStep={nextStep} 
+                // isOpen={activeState === 1} //redundant prop
+                // onToggle={() => toggleStep(1)} //never perform any function in prop, remove this
+                // nextStep={nextStep} 
+                setActiveState={setActiveState}
                 activeState={activeState}
+
                 />
             <Form2
-                isOpen={activeState === 2}
-                onToggle={() => toggleStep(2)}
-                nextStep={nextStep} 
+                // isOpen={activeState === 2}
+                // onToggle={() => toggleStep(2)}
+                // nextStep={nextStep} 
+                setActiveState={setActiveState}
                 activeState={activeState}/>
+
             <Form3 
-                isOpen={activeState === 3}
-                onToggle={() => toggleStep(3)}
-                nextStep={nextStep}
-            />
+                // isOpen={activeState === 3}
+                // onToggle={() => toggleStep(3)}
+                // nextStep={nextStep}
+                setActiveState={setActiveState}
+                activeState={activeState} 
+                />
+
             <Form4
-                stepNumber={4}
+            setActiveState={setActiveState}
                 isOpen={activeState === 4}
                 onToggle={() => toggleStep(4)}
             />    

@@ -1,5 +1,6 @@
 import React from 'react'
 import Accordion from '../Components/Accordion'
+import Button from '../Components/Button';
 
 function Form4({ isOpen, onToggle, activeState }) {
 
@@ -7,7 +8,6 @@ function Form4({ isOpen, onToggle, activeState }) {
         e.preventDefault();
 
     }
-
     return (
         <div>
             <Accordion title={"Select Shipping Partner"}
@@ -22,7 +22,6 @@ function Form4({ isOpen, onToggle, activeState }) {
                         <br />
                         <p>In case any doubt, please call/whatsapp at <span className='text-indigo-800 font-semibold'>011-422 77777</span></p>
                     </div>
-
                     <div className="flex justify-center items-center gap-4 text-slate-500 mt-5 px-12">
                         <div className="flex flex-col justify-center items-center  py-2 min-w-[150px] border rounded-md bg-slate-100">
                             <p className='font-semibold'>1 KG</p>
@@ -32,16 +31,14 @@ function Form4({ isOpen, onToggle, activeState }) {
                             <p className='font-semibold'>0.001 KG</p>
                             <p className="text-sm">Volumetric Weight</p>
                         </div>
-                        <div className="flex flex-col justify-center items-center py-2 min-w-[150px] border border-orange-600 rounded-md bg-slate-100 text-[#F59300] ">
+                        <div className="flex flex-col justify-center items-center py-2 min-w-[150px] border border-orange-600 rounded-md bg-slate-100 text-amber-500 ">
                             <p className='font-semibold'>1 KG</p>
                             <p className="text-sm">Billed Weight</p>
                         </div>
                     </div>
-
                     <div className='pt-4'>
                         <p className='font-semibold'>Showing 3 Results</p>
                     </div>
-
                     <div className='mt-2  overflow-hidden'>
                         <table className=''>
                             <tr className='grid grid-cols-4 py-2 w-[900px] border rounded-md mb-4px text-gray-400 bg-slate-100'>
@@ -71,17 +68,16 @@ function Form4({ isOpen, onToggle, activeState }) {
                         </table>
                     </div>
                     <div className="flex justify-end mt-8">
-                        <button
+                        <Button
                             type="submit"
                             className="px-4 py-2 bg-blue-800 text-gray-100 rounded-md font-bold text-[14px] hover:bg-blue-900 cursor-pointer"
                         >
                             Pay and Order
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </Accordion>
         </div>
     )
 }
-
 export default Form4

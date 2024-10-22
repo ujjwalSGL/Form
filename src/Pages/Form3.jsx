@@ -4,9 +4,11 @@ import Accordion from '../Components/Accordion'
 import Input from '../Components/Input';
 import { MdAdd } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import Button from '../Components/Button';
+import Label from '../Components/Label';
 
 
-function Form3({ isOpen, onToggle, nextStep, activeState }) {
+function Form3({ isOpen, onToggle, activeState, setActiveState }) {
 
     const [errors, setErrors] = useState({});
 
@@ -57,15 +59,15 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
         e.preventDefault();
         if (validateInfo()) {
             console.log('Form Submitted', shippingInfo);
-            nextStep();
+            setActiveState(4);
         }
     }
     const [products, setProducts] = useState([
-        { component:"" }
+        { component: "" }
     ]
     )
     function addProduct() {
-        setProducts((prev)=>[
+        setProducts((prev) => [
             ...prev,
             { component: "" }
         ])
@@ -86,38 +88,40 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
             ...prevData,
             [name]: value,
         }));
-        const updatedProducts = products.map((products, i) => {
-            if (i === index) {
-                return { ...products, [name]: value }
-            }
-            return products;
-        })
+        // const updatedProducts = products.map((products, i) => {
+        //     if (i === index) {
+        //         return { ...products, [name]: value }
+        //     }
+        //     return products;
+        // })
 
     }
 
     return (
         <div>
             <Accordion title={"Shipment Information"}
-                isOpen={isOpen}
-                onToggle={onToggle}
+                isOpen={activeState===3}
+                onToggle={()=>setActiveState(3)}
                 stepNum={3}
                 activeState={activeState}
             >
                 <form onSubmit={handleSubmit}>
                     <div className='text-sm'>
                         <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-4'>
+                            {/* gap -y -2  */}
                             <div className='mt-2'>
-                                <p >Invoice Number <span className='text-red-600'>*</span></p>
+                                <Label isRequired>Invoice Number</Label>
                                 <Input type="text" placeholder="Enter Invoice Number..."
                                     name="invoiceNumber"
                                     value={shippingInfo.invoiceNumber}
                                     onChange={handleProductChange}
+                                    className="rounded-md w-[222px]"
                                 />
                                 {errors.invoiceNumber && <p className=" -mt-2 font-semibold text-[12px] text-red-600">{errors.invoiceNumber}</p>}
                             </div>
 
                             <div className='mt-2'>
-                                <p >Invoice Date<span className='text-red-600 pl-1' >*</span></p>
+                                <Label isRequired>Invoice Date</Label>
                                 <input type="date" placeholder="Pick a date"
                                     name="invoiceDate"
                                     value={shippingInfo.invoiceDate}
@@ -145,23 +149,25 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
                                     <option value="AED">AED</option>
                                     <option value="SAR">SAR</option>
                                 </select>
-                                {errors.invoiceCurrency && <p className="font-semibold text-[12px] text-red-600">{errors.invoiceCurrency}</p>}
+                                {errors.invoiceCurrency && <p className="font-semibold text-xs text-red-600">{errors.invoiceCurrency}</p>}
 
                             </div>
                             <div className='mt-4'>
-                                <p >Order/Reference ID</p>
+                                <Label >Order/Reference ID</Label>
                                 <Input type="text" placeholder="Enter Order/Reference ID..."
                                     name="orderReferenceID"
                                     value={shippingInfo.orderReferenceID}
                                     onChange={handleProductChange}
+                                    className="rounded-md w-[222px]"
                                 />
                             </div>
                             <div className='mt-4'>
-                                <p >IOSS Number</p>
+                                <Label >IOSS Number</Label>
                                 <Input type="text" placeholder="Enter IOSS Number..."
                                     name="iossNumber"
                                     value={shippingInfo.iossNumber}
                                     onChange={handleProductChange}
+                                    className="rounded-md w-[222px]"
                                 />
                             </div>
 
@@ -170,89 +176,92 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
                             <div className="mt-4  px-4">
                                 <h2 className=" text-sm font-bold  ">Box Measurements</h2>
                             </div>
-                            <div className="grid lg:grid-cols-4 gap-6 pb-7 mt-1 py-2 px-4 md:grid-cols-2">
+                            <div className="grid lg:grid-cols-4 gap-6 pb-7 py-2 px-4 md:grid-cols-2">
                                 <div>
-                                    <label
+                                    <Label
                                         somelabel="Dead Weight"
-                                        className="block text-sm font-medium text-gray-700  "
+                                        className="block text-sm font-medium text-gray-700 mt-2 "
+                                        isRequired
                                     >
                                         Dead Weight
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex rounded-md mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex rounded-md">
+                                        <Input
                                             type="number"
                                             placeholder="Eg. 1.25"
                                             name='deadWeight'
                                             value={shippingInfo.deadWeight}
                                             onChange={handleProductChange}
-                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
+                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="px-3 bg-gray-200 rounded-r-md py-1.5">kg</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">kg</span>{" "}
                                     </div>
                                     {errors.deadWeight && <p className="font-semibold text-[12px] text-red-600">{errors.deadWeight}</p>}
                                 </div>
                                 <div>
-                                    <label
+                                    <Label
                                         somelabel="Length"
-                                        className="block text-sm font-medium text-gray-700 "
+                                        className="block text-sm font-medium text-gray-700 mt-2 "
+                                        isRequired
                                     >
                                         Length
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex">
+                                        <Input
                                             type="number"
                                             placeholder="Eg. 1.25"
                                             name='length'
                                             value={shippingInfo.length}
                                             onChange={handleProductChange}
-                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
+                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="px-3 bg-gray-200 rounded-r-md py-1.5 ">cm</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">cm</span>{" "}
                                     </div>
                                     {errors.length && <p className="font-semibold text-[12px] text-red-600">{errors.length}</p>}
                                 </div>
                                 <div>
-                                    <label
+                                    <Label
                                         somelabel="Breadth"
-                                        className="block text-sm font-medium text-gray-700  "
+                                        className="block text-sm font-medium text-gray-700 mt-2 "
                                     >
                                         Breadth
                                         <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                    </Label>
+                                    <div className="flex">
+                                        <Input
                                             type="number"
                                             placeholder="Eg. 1.25"
                                             name='breadth'
                                             value={shippingInfo.breadth}
                                             onChange={handleProductChange}
-                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
+                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="px-3 bg-gray-200 rounded-r-md py-1.5">cm</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">cm</span>{" "}
                                     </div>
                                     {errors.breadth && <p className="font-semibold text-[12px] text-red-600">{errors.breadth}</p>}
 
                                 </div>
                                 <div>
-                                    <label
+                                    <Label
                                         somelabel="Height"
-                                        className="block text-sm font-medium text-gray-700  "
+                                        className="block text-sm font-medium text-gray-700 mt-2 "
+                                        isRequired
                                     >
                                         Height
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex">
+                                        <Input
                                             type="number"
                                             placeholder="Eg. 1.25"
                                             name='height'
                                             value={shippingInfo.height}
                                             onChange={handleProductChange}
-                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50 w-28"
+                                            className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="px-3 bg-gray-200 rounded-r-md py-1.5">cm</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">cm</span>{" "}
                                     </div>
                                     {errors.height && <p className="font-semibold text-[12px] text-red-600">{errors.height}</p>}
 
@@ -261,21 +270,22 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
                         </div>
                         <div>
                             <div className="mx-4">
-                                <p className=" font-bold">Item(s) Details <span className='cursor-pointer px-1 text-red-500 bg-yellow-100 rounded-md font-light text-[10px]'>Items that can export</span></p>
+                                <p className=" font-bold">Item(s) Details <span className='cursor-pointer px-1  text-red-500 bg-yellow-100 rounded-md font-light text-[10px]'>Items that can export</span></p>
                             </div>
                         </div>
                         {products.map((a, index) => (
                             <div className={` flex flex-row ${index === 0 ? "" : ""} px-4 gap-4 `} >
                                 <div className='mt-3' key={index}>
-                                    <label
+                                    <Label
                                         somelabel="Height"
                                         className="block text-sm font-medium text-gray-700 mb-1  "
+                                        isRequired
                                     >
                                         Product Name
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex ">
+                                        <Input
                                             type="text"
                                             placeholder="Enter Product Name..."
                                             name='productName'
@@ -288,14 +298,14 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
 
                                 </div>
                                 <div className='mt-3'>
-                                    <label
+                                    <Label
                                         somelabel="Height"
                                         className="block text-sm font-medium text-gray-700 mb-1  "
                                     >
                                         SKU
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                    </Label>
+                                    <div className="flex ">
+                                        <Input
                                             type="text"
                                             placeholder="Enter SKU ..."
                                             name='SKU'
@@ -306,15 +316,16 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
                                     </div>
                                 </div>
                                 <div className='mt-3'>
-                                    <label
+                                    <Label
                                         somelabel="Height"
                                         className="block text-sm font-medium text-gray-700 mb-1  "
+                                        isRequired
                                     >
                                         HSN
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex ">
+                                        <Input
                                             type="text"
                                             placeholder="Enter HSN ..."
                                             name='HSN'
@@ -327,15 +338,16 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
 
                                 </div>
                                 <div className='mt-3'>
-                                    <label
+                                    <Label
                                         somelabel="Height"
-                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                        isRequired
                                     >
                                         Qty
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex ">
+                                        <Input
                                             type="number"
                                             placeholder="Enter Qty ..."
                                             name='Qty'
@@ -348,15 +360,16 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
 
                                 </div>
                                 <div className='mt-3'>
-                                    <label
+                                    <Label
                                         somelabel="Height"
-                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                        isRequired
                                     >
                                         Unit Price (INR)
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex  mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex">
+                                        <Input
                                             type="number"
                                             placeholder="0"
                                             name='unitPrice'
@@ -369,22 +382,23 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
 
                                 </div>
                                 <div className='mt-3'>
-                                    <label
+                                    <Label
                                         somelabel="Height"
-                                        className="block text-sm font-medium text-gray-700 mb-1  "
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                        isRequired
                                     >
                                         IGST
-                                        <span className="text-red-600 ml-1">*</span>{" "}
-                                    </label>
-                                    <div className="flex mt-2">
-                                        <input
+                                        {" "}
+                                    </Label>
+                                    <div className="flex">
+                                        <Input
                                             type="text"
                                             disabled
                                             placeholder="0%"
                                             name='IGST'
                                             // value={shippingInfo.IGST + "" + products.igst}
                                             // onChange={handleProductChange}
-                                            className="flex-grow p-2 border cursor-pointer rounded-md w-16 focus:border-indigo-600 focus:outline-none hover:bg-gray-50 "
+                                            className="flex-grow p-2 border cursor-pointer rounded-md w-16  focus:border-indigo-600 focus:outline-none hover:bg-gray-50 "
                                         />
                                     </div>
                                     {errors.IGST && <p className="font-semibold text-[12px] text-red-600">{errors.IGST}</p>}
@@ -402,7 +416,6 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
 
                             </div>
                         ))}
-
                         <div onClick={(e) => { e.preventDefault(); addProduct() }}>
                             <p className='flex m-5 text-indigo-900 text-[15px]' >
                                 <div>
@@ -414,12 +427,12 @@ function Form3({ isOpen, onToggle, nextStep, activeState }) {
                             </p>
                         </div>
                         <div className="flex justify-end mt-5">
-                            <button
+                            <Button
                                 type="submit"
                                 className="px-4 py-2 bg-blue-900 hover:bg-blue-800 text-gray-100 rounded-md font-bold text-[14px] cursor-pointer"
                             >
                                 Select Shipping
-                            </button>
+                            </Button>
                         </div>
                     </div>
                 </form>
