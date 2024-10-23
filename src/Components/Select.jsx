@@ -10,7 +10,7 @@ const Select = ({ options, Style, value, onChange, name }) => {
 
     return (
         <select
-            className={`block w-[222px] h-9 px-3 border appearance-none mt-2 border-gray-300  rounded-md shadow-sm  ${focusBG[Style]}`}
+            className={`block w-[222px] h-9 px-3 border appearance-none mt-1 border-gray-300  rounded-md shadow-sm  ${focusBG[Style]}`}
             value={value}
             onChange={onChange}
             name={name}

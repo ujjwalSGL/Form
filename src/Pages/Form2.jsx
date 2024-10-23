@@ -4,6 +4,8 @@ import Input from '../Components/Input';
 import Select from '../Components/Select';
 import Button from '../Components/Button'
 import Label from '../Components/Label';
+import Data from '../Components/Data';
+import Error from '../Components/Error';
 
 const countryStateMap = {
     India: ['UP', 'MP', 'UK'],
@@ -81,6 +83,7 @@ function Form2({ activeState, setActiveState }) {
             ...prevData,
             [name]: value,
         }));
+
     };
 
     const handleBillingChange = (e) => {
@@ -99,6 +102,7 @@ function Form2({ activeState, setActiveState }) {
         if (!/^\d{10}$/.test(shippingAddress.mobile)) newErrors.mobile = 'Invalid mobile number';
         if (!/\S+@\S+\.\S+/.test(shippingAddress.email)) newErrors.email = 'Invalid email address';
         if (!shippingAddress.address1) newErrors.address1 = 'Address 1 is required';
+        if (!shippingAddress.address2) newErrors.address2 = 'Address 2 is required';
         if (!shippingAddress.country) newErrors.country = 'Country is required';
         if (!shippingAddress.state) newErrors.state = 'State is required';
         if (!shippingAddress.city) newErrors.city = 'City is required';
@@ -122,7 +126,7 @@ function Form2({ activeState, setActiveState }) {
         <div className='w-[1000px]'>
             <Accordion title={"Consignee Details"}
                 isOpen={activeState === 2}
-                onToggle={() => setActiveState(2)}
+                onToggle={() => setActiveState(2)} //remove this
                 stepNum={2}
                 activeState={activeState}
             >
@@ -130,131 +134,141 @@ function Form2({ activeState, setActiveState }) {
                     <div>
                         <Label className='font-bold'>Personal Details</Label>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                            <div>
-                                <Label isRequired>First Name</Label>
-                                <Input type="text" placeholder="Enter First Name..."
-                                    name="firstName"
-                                    value={shippingAddress.firstName}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
-                                />
-                                {errors.firstName && <p className="font-semibold -mt-2 text-[12px] text-red-600">{errors.firstName}</p>}
-                                {/* errors.firstName && <ErrorComponent title = {errors.firstname}/> */}
-                                {/* errorcomponent = > return <p clas...>{title}</p> */}
-                            </div>
-                            <div>
-                                <Label isRequired>Last Name</Label>
-                                <Input type="text" placeholder="Enter Last Name..."
-                                    name="lastName"
-                                    value={shippingAddress.lastName}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
 
-                                />
-                                {errors.lastName && <p className="font-semibold text-[12px] -mt-2 text-red-600">{errors.lastName}</p>}
-                            </div>
-                            <div>
-                                <Label isRequired>Mobile Number</Label>
-                                <Input type="text" placeholder="Enter Mobile Number..."
-                                    name="mobile"
-                                    value={shippingAddress.mobile}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
-                                />
-                                {errors.mobile && <p className="font-semibold text-[12px] -mt-2 text-red-600">{errors.mobile}</p>}
-                            </div>
-                            <div>
-                                <Label>Email Address <span className='text-red-600'>*</span></Label>
-                                <Input type="email" placeholder="Enter Email ID..."
-                                    name="email"
-                                    value={shippingAddress.email}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
+                            <Data
+                                isRequired
+                                type="text"
+                                name="firstName"
+                                value={shippingAddress.firstName}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                                error={errors.firstName}
+                            >First Name</Data>
 
-                                />
-                                {errors.email && <p className="font-semibold text-[12px] -mt-2 text-red-600">{errors.email}</p>}
-                            </div>
+                            <Data
+                                isRequired
+                                type="text"
+                                name="lastName"
+                                value={shippingAddress.lastName}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                                error={errors.lastName}
+                            >Last Name</Data>
+
+                            <Data
+                                isRequired
+                                type="text"
+                                name="mobile"
+                                value={shippingAddress.mobile}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                                error={errors.mobile}
+
+                            >Mobile Number</Data>
+
+                            <Data
+                                isRequired
+                                type="text"
+                                name="email"
+                                value={shippingAddress.email}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                                error={errors.email}
+                            >Email Address</Data>
                         </div>
                     </div>
 
                     <div>
                         <Label className='font-bold'>Shipping Address</Label>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-                            <div>
-                                <Label isRequired>Address 1</Label>
-                                <Input type="text" placeholder="Enter Address 1..." name="address1"
-                                    value={shippingAddress.address1}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
+                            <Data
+                                isRequired
+                                type="text"
+                                name="address1"
+                                value={shippingAddress.address1}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                                error={errors.address1}
+                            >Address 1</Data>
 
-                                />
-                                {errors.address1 && <p className="font-semibold -mt-2 text-[12px] text-red-600">{errors.address1}</p>}
-                            </div>
-                            <div>
-                                <Label>Address 2</Label>
-                                <Input type="text" placeholder="Enter Address 2..." name="address2"
-                                    value={shippingAddress.address2}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
+                            <Data
+                                isRequired
+                                type="text"
+                                name="address2"
+                                value={shippingAddress.address2}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                                error={errors.address2}
+                            >Address 2</Data>
 
-                                />
-                            </div>
-                            <div>
-                                <Label>Landmark</Label>
-                                <Input type="text" placeholder="Enter Landmark..."
-                                    name="landmark"
-                                    value={shippingAddress.landmark}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
-
-                                />
-                            </div>
+                            <Data
+                                type="text"
+                                name="landmark"
+                                value={shippingAddress.landmark}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter your username"
+                            >
+                                Landmark
+                            </Data>
                         </div>
 
-                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3'>
                             <div>
                                 <Label>Country <span className='text-red-600'>*</span></Label>
                                 <Select
                                     options={countryOptions}
-                                    Style="light"
                                     value={shippingAddress.country}
                                     onChange={handleCountryChange}
                                     name="country"
+
                                 />
-                                {errors.country && <p className="font-semibold text-[12px] text-red-600">{errors.country}</p>}
+                                <Error errors={errors.country} className={"mt-0"} />
                             </div>
                             <div>
                                 <Label isRequired>State</Label>
                                 <Select
                                     options={stateOptions}
-                                    Style="light"
                                     value={shippingAddress.state}
                                     onChange={handleStateChange}
                                     name="state"
                                 />
-                                {errors.state && <p className="font-semibold text-[12px] text-red-600">{errors.state}</p>}
+                                <Error errors={errors.state} className={"mt-0"} />
                             </div>
-                            <div>
-                                <Label isRequired>City</Label >
-                                <Input type="text" placeholder="Enter City..."
-                                    name="city"
-                                    value={shippingAddress.city}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
-                                />
-                                {errors.city && <p className="font-semibold text-[12px] -mt-2 text-red-600">{errors.city}</p>}
-                            </div>
-                            <div>
-                                <Label isRequired>Pincode</Label>
-                                <Input type="text" placeholder="Enter Pincode..."
-                                    name="pincode"
-                                    value={shippingAddress.pincode}
-                                    onChange={handleShippingChange}
-                                    className="rounded-md w-[222px]"
 
-                                />
-                                {errors.pincode && <p className="font-semibold -mt-2 text-[12px] text-red-600">{errors.pincode}</p>}
-                            </div>
+                            <Data
+                                isRequired
+                                type="text"
+                                name="city"
+                                value={shippingAddress.city}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter City..."
+                                errors={errors.city}
+                            >
+                                City
+                            </Data>
+
+                            <Data
+                                isRequired
+                                type="text"
+                                name="pincode"
+                                value={shippingAddress.pincode}
+                                onChange={handleShippingChange}
+                                className="rounded-md w-[222px]"
+                                placeholder="Enter Pincode..."
+                                error={errors.pincode}
+                            >
+                                Pincode
+                            </Data>
+
+
                         </div>
 
                         <div className="flex items-center space-x-2 mt-6">
@@ -274,31 +288,46 @@ function Form2({ activeState, setActiveState }) {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                                     <div>
-                                        <Label isRequired>Address 1</Label>
-                                        <Input type="text" placeholder="Enter Address 1..." name="address1"
+                                        <Data
+                                            isRequired
+                                            type="text"
+                                            name="address1"
                                             value={billingAddress.address1}
-                                            onChange={handleBillingChange}
+                                            onChange={handleShippingChange}
                                             className="rounded-md w-[222px]"
-                                        />
+                                            placeholder="Enter Address 1..."
+                                            error={errors.address1}
+                                        >
+                                            Address 1
+                                        </Data>
 
                                     </div>
 
                                     <div>
-                                        <Label>Address 2</Label>
-                                        <Input type="text" placeholder="Enter Address 2..." name="address2"
+                                        <Data
+                                            isRequired
+                                            type="text"
+                                            placeholder="Enter Address 2..." name="address2"
                                             value={billingAddress.address2}
-                                            onChange={handleBillingChange}
+                                            onChange={handleShippingChange}
                                             className="rounded-md w-[222px]"
+                                            error={errors.address2}
 
-                                        />
+                                        >
+                                            Address 2
+                                        </Data>
                                     </div>
                                     <div>
-                                        <Label>Landmark</Label>
-                                        <Input type="text" placeholder="Enter Landmark..." name="landmark"
+                                        <Data
+                                            type="text"
                                             value={billingAddress.landmark}
-                                            onChange={handleBillingChange}
+                                            onChange={handleShippingChange}
                                             className="rounded-md w-[222px]"
-                                        />
+                                            placeholder="Enter Landmark..." name="landmark"
+
+                                        >
+                                            Landmark
+                                        </Data>
                                     </div>
                                 </div>
 
@@ -313,6 +342,7 @@ function Form2({ activeState, setActiveState }) {
                                             name="country"
 
                                         />
+                                        <Error errors={errors.country} className={"mt-0"}/>
                                     </div>
                                     <div>
                                         <Label isRequired>State </Label>
@@ -322,25 +352,35 @@ function Form2({ activeState, setActiveState }) {
                                             value={billingAddress.state}
                                             onChange={(e) => handleBillingChange({ target: { name: 'state', value: e.target.value } })}
                                             name="state"
+                                            error={errors.state}
                                         />
-                                    </div>
-                                    <div>
-                                        <Label isRequired>City</Label>
-                                        <Input type="text" placeholder="Enter City..." name="city"
-                                            value={billingAddress.city}
-                                            onChange={handleBillingChange}
-                                            className="rounded-md w-[222px]"
+                                        <Error errors={errors.state} className={"mt-1"} />
 
-                                        />
                                     </div>
-                                    <div>
-                                        <Label isRequired>Pincode </Label>
-                                        <Input type="text" placeholder="Enter Pincode..." name="pincode"
-                                            value={billingAddress.pincode}
-                                            onChange={handleBillingChange}
+
+                                        <Data
+                                            isRequired
+                                            type="text"
+                                            value={billingAddress.city}
+                                            onChange={handleShippingChange}
                                             className="rounded-md w-[222px]"
-                                        />
-                                    </div>
+                                            placeholder="Enter City..." name="city"
+                                            error={errors.city}
+                                        >
+                                            City
+                                        </Data>
+
+                                        <Data
+                                            isRequired
+                                            type="text"
+                                            value={billingAddress.pincode}
+                                            onChange={handleShippingChange}
+                                            className="rounded-md w-[222px]"
+                                            placeholder="Enter Pincode..." name="pincode"
+                                            error={errors.pincode}
+                                        >
+                                            Pincode
+                                        </Data>
                                 </div>
                             </div>
                         )}

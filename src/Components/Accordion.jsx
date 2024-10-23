@@ -40,7 +40,6 @@ const Accordion = ({ title, children, isOpen, onToggle, stepNum, activeState, ..
                         }
                     </div>
                 </div>
-
             </button>
             <div
                 className={`transition-[max-height] duration-700 ease-in-out overflow-hidden border-t-2 ${isOpen ? "max-h-[3000px]" : "max-h-0"
@@ -50,4 +49,6 @@ const Accordion = ({ title, children, isOpen, onToggle, stepNum, activeState, ..
         </div>
     );
 };
+
+
 export default Accordion;
