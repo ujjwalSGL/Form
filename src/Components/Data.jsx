@@ -3,13 +3,14 @@ import Input from './Input'
 import Error from './Error'
 
 
-function Data({ isRequired, type, name, value, onChange, className, children, placeholder,error }) {
+function Data({ isRequired, type, name, value, onChange, className, children, placeholder, error, somelabel }) {
 
     return (
         <div>
             
             <Label
                 isRequired={isRequired}
+                somelabel={somelabel}
             >{children}</Label>
             <Input
                 type={type}
@@ -18,6 +19,7 @@ function Data({ isRequired, type, name, value, onChange, className, children, pl
                 onChange={onChange}
                 className={className}
                 placeholder={placeholder}
+
             />
             <Error errors={error} />
         </div>

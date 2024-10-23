@@ -100,8 +100,8 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
     return (
         <div>
             <Accordion title={"Shipment Information"}
-                isOpen={activeState===3}
-                onToggle={()=>setActiveState(3)}
+                isOpen={activeState === 3}
+                onToggle={() => setActiveState(3)}
                 stepNum={3}
                 activeState={activeState}
             >
@@ -195,7 +195,7 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
                                             onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">kg</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-1 mb-2 w-12 rounded-r-md">kg</span>{" "}
                                     </div>
                                     {errors.deadWeight && <p className="font-semibold text-[12px] text-red-600">{errors.deadWeight}</p>}
                                 </div>
@@ -217,7 +217,7 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
                                             onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">cm</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-1 mb-2 w-12 rounded-r-md">cm</span>{" "}
                                     </div>
                                     {errors.length && <p className="font-semibold text-[12px] text-red-600">{errors.length}</p>}
                                 </div>
@@ -238,7 +238,7 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
                                             onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">cm</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-1 mb-2 w-12 rounded-r-md">cm</span>{" "}
                                     </div>
                                     {errors.breadth && <p className="font-semibold text-[12px] text-red-600">{errors.breadth}</p>}
 
@@ -261,7 +261,7 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
                                             onChange={handleProductChange}
                                             className="flex-grow p-2 border rounded-l-md cursor-pointer focus:border-l-indigo-600 focus:border-t-indigo-600 focus:border-b-indigo-600 focus:outline-none transition-all duration-200 hover:bg-gray-50"
                                         />
-                                        <span className="p-2 bg-gray-200 mt-2 mb-2 w-12 rounded-r-md">cm</span>{" "}
+                                        <span className="p-2 bg-gray-200 mt-1 mb-2 w-12 rounded-r-md">cm</span>{" "}
                                     </div>
                                     {errors.height && <p className="font-semibold text-[12px] text-red-600">{errors.height}</p>}
 
@@ -416,16 +416,20 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
 
                             </div>
                         ))}
-                        <div onClick={(e) => { e.preventDefault(); addProduct() }}>
-                            <p className='flex m-5 text-indigo-900 text-[15px]' >
-                                <div>
-                                    <MdAdd className='text-xl' />
-                                </div>
-                                <div className='underline font-semibold cursor-pointer hover:text-indigo-800'>
-                                    <p>Add Another Product</p>
-                                </div>
-                            </p>
+                        <div className="w-[212px]">
+
+                            <div onClick={(e) => { e.preventDefault(); addProduct() }}>
+                                <p className='flex m-5 text-indigo-900 text-[15px]' >
+                                    <div>
+                                        <MdAdd className='text-xl' />
+                                    </div>
+                                    <div className='underline font-semibold cursor-pointer hover:text-indigo-800'>
+                                        <p>Add Another Product</p>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
+
                         <div className="flex justify-end mt-5">
                             <Button
                                 type="submit"
@@ -435,6 +439,7 @@ function Form3({ isOpen, onToggle, activeState, setActiveState }) {
                             </Button>
                         </div>
                     </div>
+
                 </form>
             </Accordion>
         </div>

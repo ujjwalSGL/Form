@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Accordion from '../Components/Accordion';
-import Input from '../Components/Input';
 import Select from '../Components/Select';
 import Button from '../Components/Button'
 import Label from '../Components/Label';
@@ -126,7 +125,7 @@ function Form2({ activeState, setActiveState }) {
         <div className='w-[1000px]'>
             <Accordion title={"Consignee Details"}
                 isOpen={activeState === 2}
-                onToggle={() => setActiveState(2)} //remove this
+                // onToggle={() => setActiveState(2)}
                 stepNum={2}
                 activeState={activeState}
             >
@@ -145,7 +144,6 @@ function Form2({ activeState, setActiveState }) {
                                 placeholder="Enter your username"
                                 error={errors.firstName}
                             >First Name</Data>
-
                             <Data
                                 isRequired
                                 type="text"
@@ -156,7 +154,6 @@ function Form2({ activeState, setActiveState }) {
                                 placeholder="Enter your username"
                                 error={errors.lastName}
                             >Last Name</Data>
-
                             <Data
                                 isRequired
                                 type="text"
@@ -168,7 +165,6 @@ function Form2({ activeState, setActiveState }) {
                                 error={errors.mobile}
 
                             >Mobile Number</Data>
-
                             <Data
                                 isRequired
                                 type="text"
@@ -195,7 +191,6 @@ function Form2({ activeState, setActiveState }) {
                                 placeholder="Enter your username"
                                 error={errors.address1}
                             >Address 1</Data>
-
                             <Data
                                 isRequired
                                 type="text"
@@ -206,7 +201,6 @@ function Form2({ activeState, setActiveState }) {
                                 placeholder="Enter your username"
                                 error={errors.address2}
                             >Address 2</Data>
-
                             <Data
                                 type="text"
                                 name="landmark"
@@ -218,7 +212,6 @@ function Form2({ activeState, setActiveState }) {
                                 Landmark
                             </Data>
                         </div>
-
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3'>
                             <div>
                                 <Label>Country <span className='text-red-600'>*</span></Label>
@@ -241,7 +234,6 @@ function Form2({ activeState, setActiveState }) {
                                 />
                                 <Error errors={errors.state} className={"mt-0"} />
                             </div>
-
                             <Data
                                 isRequired
                                 type="text"
@@ -250,11 +242,10 @@ function Form2({ activeState, setActiveState }) {
                                 onChange={handleShippingChange}
                                 className="rounded-md w-[222px]"
                                 placeholder="Enter City..."
-                                errors={errors.city}
+                                error={errors.city}
                             >
                                 City
                             </Data>
-
                             <Data
                                 isRequired
                                 type="text"
@@ -267,10 +258,7 @@ function Form2({ activeState, setActiveState }) {
                             >
                                 Pincode
                             </Data>
-
-
                         </div>
-
                         <div className="flex items-center space-x-2 mt-6">
                             <input
                                 type="checkbox"
@@ -280,57 +268,47 @@ function Form2({ activeState, setActiveState }) {
                             />
                             <Label className='cursor-pointer'>Billing address is same as shipping address</Label>
                         </div>
-
                         {!isBillingAddressSame && (
                             <div className='mt-6'>
                                 <div className='mb-6'>
                                     <Label className='font-bold'>Billing Address</Label>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-                                    <div>
-                                        <Data
-                                            isRequired
-                                            type="text"
-                                            name="address1"
-                                            value={billingAddress.address1}
-                                            onChange={handleShippingChange}
-                                            className="rounded-md w-[222px]"
-                                            placeholder="Enter Address 1..."
-                                            error={errors.address1}
-                                        >
-                                            Address 1
-                                        </Data>
+                                    <Data
+                                        isRequired
+                                        type="text"
+                                        name="address1"
+                                        value={billingAddress.address1}
+                                        onChange={handleShippingChange}
+                                        className="rounded-md w-[222px]"
+                                        placeholder="Enter Address 1..."
+                                        error={errors.address1}
+                                    >
+                                        Address 1
+                                    </Data>
+                                    <Data
+                                        isRequired
+                                        type="text"
+                                        placeholder="Enter Address 2..." name="address2"
+                                        value={billingAddress.address2}
+                                        onChange={handleShippingChange}
+                                        className="rounded-md w-[222px]"
+                                        error={errors.address2}
 
-                                    </div>
+                                    >
+                                        Address 2
+                                    </Data>
+                                    <Data
+                                        type="text"
+                                        value={billingAddress.landmark}
+                                        onChange={handleShippingChange}
+                                        className="rounded-md w-[222px]"
+                                        placeholder="Enter Landmark..." name="landmark"
 
-                                    <div>
-                                        <Data
-                                            isRequired
-                                            type="text"
-                                            placeholder="Enter Address 2..." name="address2"
-                                            value={billingAddress.address2}
-                                            onChange={handleShippingChange}
-                                            className="rounded-md w-[222px]"
-                                            error={errors.address2}
-
-                                        >
-                                            Address 2
-                                        </Data>
-                                    </div>
-                                    <div>
-                                        <Data
-                                            type="text"
-                                            value={billingAddress.landmark}
-                                            onChange={handleShippingChange}
-                                            className="rounded-md w-[222px]"
-                                            placeholder="Enter Landmark..." name="landmark"
-
-                                        >
-                                            Landmark
-                                        </Data>
-                                    </div>
+                                    >
+                                        Landmark
+                                    </Data>
                                 </div>
-
                                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2'>
                                     <div>
                                         <Label isRequired>Country</Label>
@@ -342,7 +320,7 @@ function Form2({ activeState, setActiveState }) {
                                             name="country"
 
                                         />
-                                        <Error errors={errors.country} className={"mt-0"}/>
+                                        <Error errors={errors.country} className={"mt-0"} />
                                     </div>
                                     <div>
                                         <Label isRequired>State </Label>
@@ -355,32 +333,29 @@ function Form2({ activeState, setActiveState }) {
                                             error={errors.state}
                                         />
                                         <Error errors={errors.state} className={"mt-1"} />
-
                                     </div>
-
-                                        <Data
-                                            isRequired
-                                            type="text"
-                                            value={billingAddress.city}
-                                            onChange={handleShippingChange}
-                                            className="rounded-md w-[222px]"
-                                            placeholder="Enter City..." name="city"
-                                            error={errors.city}
-                                        >
-                                            City
-                                        </Data>
-
-                                        <Data
-                                            isRequired
-                                            type="text"
-                                            value={billingAddress.pincode}
-                                            onChange={handleShippingChange}
-                                            className="rounded-md w-[222px]"
-                                            placeholder="Enter Pincode..." name="pincode"
-                                            error={errors.pincode}
-                                        >
-                                            Pincode
-                                        </Data>
+                                    <Data
+                                        isRequired
+                                        type="text"
+                                        value={billingAddress.city}
+                                        onChange={handleShippingChange}
+                                        className="rounded-md w-[222px]"
+                                        placeholder="Enter City..." name="city"
+                                        error={errors.city}
+                                    >
+                                        City
+                                    </Data>
+                                    <Data
+                                        isRequired
+                                        type="text"
+                                        value={billingAddress.pincode}
+                                        onChange={handleShippingChange}
+                                        className="rounded-md w-[222px]"
+                                        placeholder="Enter Pincode..." name="pincode"
+                                        error={errors.pincode}
+                                    >
+                                        Pincode
+                                    </Data>
                                 </div>
                             </div>
                         )}
@@ -398,5 +373,4 @@ function Form2({ activeState, setActiveState }) {
         </div>
     )
 }
-
 export default Form2;
